@@ -14,18 +14,19 @@ st.title('Potato Leaf Disease Prediction')
 def main() :
     file_uploaded = st.file_uploader('Choose an image...', type = 'jpg')
     if file_uploaded is not None :
-        image = image.open(file_uploaded)
+        image = Image.open(file_uploaded)		//fixed here
         st.write("Uploaded Image.")
         figure = plt.figure()
-        plt.show(image)
+        plt.imshow(image)				//here
         plt.axis('off')
+       st.pyplot(figure)				//here
         result, confidence = predict_class(image)
         st.write('Prediction : {}'.format(result))
         st.write('Confidence : {}%'.format(confidence))
 
 def predict_class(image) :
     with st.spinner('Loading Model...'):
-       classifier_model = keras.models.load_model('potatoes.h5', compile = False)
+       classifier_model = keras.models.load_model(r'potatoes.h5', compile = False)		//here
 
     shape = ((256,256,3))
     model = keras.Sequential([hub.KerasLayer(classifier_model, input_shape = shape)])   
